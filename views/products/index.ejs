@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <link rel="stylesheet" href="/path/to/your/styles.css">
+    <style>
+        /* Hide scrollbars for all browsers */
+        ::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, and Opera */
+        }
+
+        html {
+            scrollbar-width: none; /* Firefox */
+        }
+
+        body {
+            -ms-overflow-style: none; /* IE and Edge */
+            height: 100vh;
+            margin: 0;
+            overflow: auto;
+        }
+
+        /* Background styling */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('https://images.unsplash.com/photo-1561715276-a2d087060f1d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            z-index: -1;
+        }
+
+        .content {
+            position: relative;
+            padding: 2rem;
+            z-index: 1;
+        }
+
+        .card {
+            width: 18rem;
+            margin: 0 auto;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+        }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .nav-link {
+            padding: 0.25rem 0;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.5);
+            margin-left: 1rem;
+            border-bottom: 0.25rem solid transparent;
+        }
+
+        .nav-link:hover {
+            color: rgba(255, 255, 255, 0.5);
+            border-bottom-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-link.active {
+            color: white;
+            border-bottom-color: white;
+        }
+
+        .btn-secondary,
+        .btn-secondary:hover {
+            color: #333;
+            text-shadow: none;
+        }
+    </style>
+</head>
+<body>
+    <%- include('../partials/header') %>
+    <%- include('../partials/navbar') %>
+    <%- include('../partials/flash') %>
+
+    <div class="background"></div>
+
+    <div class="content">
+        <div class="row mt-5">
+            <% for(let item of products){ %>
+                <div class="col-lg-4">
+                    <div class="card text-center shadow">
+                        <img class="img card-img-top" src="<%= item.img %>" alt="<%= item.name %>">
+                        <div class="card-body">
+                            <h3 class="card-title"> <%= item.name %> </h3>
+                            <span class="btn like-btn" product-id="<%= item._id %>" style="
+                                cursor: pointer;
+                            ">
+                                <% if(currentUser && currentUser.wishlist.includes(item._id)){ %>
+                                    <i class="fa-solid fa-heart"></i>
+                                <% } else { %>
+                                    <i class="fa-regular fa-heart"></i>
+                                <% } %>
+                            </span>
+                            <h5 class="card-title"> Rs: <%= item.price %> </h5>
+                            <p class="card-text"> <%= item.desc %> </p>
+                            <p class="card-text"> <%= item.instock %> </p>
+                            <a href="/products/<%= item._id %>" class="btn btnn btn-primary">View Recipe</a>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <script src="/js/common.js"></script>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>
